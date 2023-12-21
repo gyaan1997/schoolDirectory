@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import styles from "../styles/AddSchool.module.css";
 import { useRouter } from "next/router";
+import Layout from "../Components/Layout";
 
 const AddSchool = () => {
   const {
@@ -17,45 +18,45 @@ const AddSchool = () => {
     try {
       setIsLoading(true);
       console.log("Submitted data:", data);
-
+  
+      const formData = new FormData();
+      formData.append("name", data.schoolName);
+      formData.append("address", data.address);
+      formData.append("city", data.city);
+      formData.append("state", data.state);
+      formData.append("contact", data.contact);
+      formData.append("image", data.image[0]); 
+      formData.append("email_id", data.email);
+  
       const response = await fetch("http://localhost:3001/api/addSchool", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: data.schoolName,
-          address: data.address,
-          city: data.city,
-          state: data.state,
-          contact: data.contact,
-          image: data.image,
-          email_id: data.email,
-        }),
+        body: formData,
       });
-
+  
       if (!response.ok) {
         throw new Error("Failed to insert data");
       }
-
+  
       const result = await response.json();
-
-      console.log("Data inserted:", result);
-
+  
+  
       await router.push("/showSchool");
     } catch (error) {
       console.error("Error inserting data into MySQL:", error.message);
+      setError(error);
     } finally {
       setIsLoading(false);
     }
   };
+  
 
   return (
-    <div className={styles.container}>
+    <Layout>   
+      <div className={styles.container}>
       <div className={styles.card}>
         <h1>Add School information</h1>
         {isLoading && <p>Loading...</p>}
-        {error && <p>Error: {error.message}</p>}
+        {error && <p className={styles.error}>Error: {error.message}</p>}
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className={styles.formGroup}>
             <label htmlFor="schoolName">School Name:</label>
@@ -66,7 +67,7 @@ const AddSchool = () => {
               id="schoolName"
             />
             {errors.schoolName && (
-              <p className="error">{errors.schoolName.message}</p>
+              <p className={styles.error}>{errors.schoolName.message}</p>
             )}
           </div>
           <div className={styles.formGroup}>
@@ -76,7 +77,7 @@ const AddSchool = () => {
               id="address"
             />
             {errors.address && (
-              <p className="error">{errors.address.message}</p>
+              <p className={styles.error}>{errors.address.message}</p>
             )}
           </div>
 
@@ -86,7 +87,7 @@ const AddSchool = () => {
               {...register("city", { required: "City is required" })}
               id="city"
             />
-            {errors.city && <p className="error">{errors.city.message}</p>}
+            {errors.city && <p className={styles.error}>{errors.city.message}</p>}
           </div>
 
           <div className={styles.formGroup}>
@@ -115,8 +116,15 @@ const AddSchool = () => {
             </button>
           </div>
         </form>
+        {errors.schoolName || errors.address || errors.city ? (
+          <div className={styles.warningContainer}>
+            <p className={styles.error}>Please fill in all required fields.</p>
+          </div>
+        ) : null}
       </div>
     </div>
+    </Layout>
+ 
   );
 };
 

@@ -23,13 +23,15 @@ const connection = mysql.createConnection(dbConfig);
 connection.connect((err) => {
   if (err) {
     console.error('Error connecting to MySQL:', err.message);
+    
   } else {
-    console.log('Connected to MySQL database');
   }
 });
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
+app.use('/schoolImages', express.static(path.join(__dirname, 'schoolImages')));
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -44,9 +46,9 @@ const upload = multer({ storage: storage });
 
 // Endpoint for inserting data
 app.post('/api/addSchool', upload.single('image'), (req, res) => {
-  console.log(req.file); 
+
   const { name, address, city, state, contact, email_id } = req.body;
-  const image = req.file ? req.file.filename : null; // Use the uploaded file's filename
+  const image = req.file ? req.file.filename : null; 
 
   const sql = 'INSERT INTO schools (name, address, city, state, contact, image, email_id) VALUES (?, ?, ?, ?, ?, ?, ?)';
   const values = [name, address, city, state, contact, image, email_id];
@@ -56,7 +58,6 @@ app.post('/api/addSchool', upload.single('image'), (req, res) => {
       console.error('Error inserting data into MySQL:', error.message);
       res.status(500).json({ error: 'Internal Server Error', details: error.message });
     } else {
-      console.log('Data inserted:', results);
       res.status(200).json({ success: true });
     }
   });
@@ -71,7 +72,7 @@ app.get('/api/getSchools', (req, res) => {
       console.error('Error fetching data from MySQL:', error.message);
       res.status(500).json({ error: 'Internal Server Error' });
     } else {
-      console.log('Fetched data:', results);
+   
       res.status(200).json(results);
     }
   });

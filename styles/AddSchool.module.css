@@ -4,20 +4,34 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  /* background-color: #d1d3e2; */
-  margin-top: 5rem;
-  margin-bottom: 5rem;
-  /* border: 1px solid red; */
+ 
+  background-color: #e6e9f3;
+ 
+
 }
 
 .card {
   background-color: #EAECCC;
-  padding: 2rem;
+  padding: 1.5rem;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 80%; /* Adjust the width as needed */
-  max-width: 400px; /* Set the maximum width */
+  width: 80%; 
+  max-width: 400px; 
 
+  max-height: 90vh;
+  overflow-y: scroll;
+ 
+  scrollbar-color: transparent transparent; 
+  -ms-scrollbar-color: transparent transparent;
+ 
+}
+
+.card::-webkit-scrollbar-thumb { 
+  background-color: transparent !important;
+}
+
+.card::-moz-scrollbar-thumb {  /*  firefox  */
+  background-color: transparent !important;
 }
 .card h1{
   font-size: 2rem;
@@ -45,12 +59,12 @@
   background-color: #125c15;
   color: white;
   padding: .5rem;
-  width: 100%; /* Take full width on small screens */
+  width: 100%;
   font-size: 1.2rem;
   border: none;
   border-radius: .3rem;
   cursor: pointer;
-  margin-top: 2rem; /* Adjust margin as needed */
+  margin-top: 2rem; 
 
 }
 
@@ -59,18 +73,24 @@
   color: black;
   border: .5px solid #125c15;
 }
-
-.error p {
-  color: rgb(38, 38, 125);
-  background-color: rgb(38, 38, 125);
+.error {
+  color: red;
+  margin-top: 5px;
 }
+/* .formContainer {
+  margin: 1rem;
+}
+.warningContainer {
 
-/* Media Query for small screens (phones) */
+  position: relative; 
+} */
+
+
 @media (max-width: 600px) {
   .card {
-      width: 90%; /* Adjust the width for small screens */
-      max-width: none; /* Remove maximum width for small screens */
-      /* max-height: 100vh; */
+      width: 90%;
+      max-width: none; 
+     
   }
   .card h1{
     font-size: 1.5rem;
@@ -86,6 +106,6 @@
   
 
   .formGroup button {
-      margin-left: 0; /* Center button on small screens */
+      margin-left: 0; 
   }
 }
