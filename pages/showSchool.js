@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import styles from '../styles/ShowSchool.module.css'
 const SomeOtherComponent = () => {
   const [data, setData] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -10,6 +12,7 @@ const SomeOtherComponent = () => {
         const result = await response.json();
         console.log('Fetched data:', result);
         setData(result);
+        setSearchResults(result); 
       } catch (error) {
         console.error('Error fetching data:', error.message);
       }
@@ -18,11 +21,31 @@ const SomeOtherComponent = () => {
     fetchData();
   }, []);
 
+  const handleSearch = (event) => {
+    const query = event.target.value.toLowerCase();
+    setSearchQuery(query);
+
+    // Filter data based on the search query
+    const filteredResults = data.filter(
+      (item) =>
+        item.name.toLowerCase().includes(query) ||
+        item.city.toLowerCase().includes(query)
+    );
+
+    setSearchResults(filteredResults);
+  };
   return (
     <div>
-      <h1>Data</h1>
+      <div className={styles.search}>
+        <input 
+         placeholder='Search your School'
+         value={searchQuery}
+         onChange={handleSearch}
+          />
+        <span style={{ fontSize: '1.2rem' }}>Search</span>
+      </div>
       <ul className={styles.cardList}>
-        {data.map((item) => (
+        {searchResults.map((item) => (
           <li key={item.id} className={styles.card}>
             <div className={styles.imageContainer}>
             {item.image ? (

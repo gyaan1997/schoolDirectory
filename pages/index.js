@@ -2,11 +2,12 @@
 import React from 'react';
 import Link from 'next/link';
 import AddSchool from './addSchool'
-
 import ShowSchool from './showSchool';
-const AddSchool = () => {
+import GlobalStyles from '../styles/GlobalStyles';
+const Index = () => {
   return (
     <div>
+      <GlobalStyles/>
       <h1>Home Page</h1>
       <nav>
       
@@ -22,4 +23,4 @@ const AddSchool = () => {
   );
 };
 
-export default AddSchool;
+export default Index;

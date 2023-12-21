@@ -31,12 +31,20 @@ connection.connect((err) => {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// Serve uploaded images
-app.use('/uploads', express.static(path.join(__dirname, 'schoolImages')));
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, path.join(__dirname, 'schoolImages'));
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+  },
+});
 
+const upload = multer({ storage: storage });
 
 // Endpoint for inserting data
 app.post('/api/addSchool', upload.single('image'), (req, res) => {
+  console.log(req.file); 
   const { name, address, city, state, contact, email_id } = req.body;
   const image = req.file ? req.file.filename : null; // Use the uploaded file's filename
 
