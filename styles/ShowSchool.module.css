@@ -1,0 +1,37 @@
+.cardList {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    /* flex-direction: column;  */
+  }
+  
+  .card {
+    border: 1px solid #ddd;
+    margin: 10px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .imageContainer {
+    margin-bottom: 10px;
+    border: 1px solid rgb(212, 207, 207);
+    width: 30vh;
+    height: 30vh;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  /* .imageContainer img {
+   
+  
+  } */
+  
+  .textContainer {
+    margin-bottom: 10px;
+  }
+  
+  .addressContainer {
+    color: #888;
+  }
+  
